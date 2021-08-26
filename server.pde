@@ -2,41 +2,74 @@
 
 import processing.net.*;
 
-int port = 10002;
+int port =  10002;
 boolean myServerRunning = true;
 int bgColor = 0;
 int direction = 1;
 int textLine = 60;
+
+boolean pressed = false;
+int pressedTime = 0;
+int pressedSquare;
 
 Server myServer;
 
 void setup()
 {
   size(300, 300);
-  textFont(createFont("SanSerif", 16));
+  frameRate(30);
   myServer = new Server(this, port); 
+  println(myServer.ip());
   background(0);
-  textSize(14);
+  textSize(18);
+  textAlign(CENTER);
 }
 
 void draw()
 {
-  Client thisClient = myServer.available();
-  if (thisClient != null) {
-    if (thisClient.available() > 0) {
-      text("mesage from: " + thisClient.ip() + " : " + thisClient.readString(), 15, textLine);
-      textLine = textLine + 22;
-      if (textLine > height-35) {
-        textLine = 35;
-        background(0);
-      }
-      
-    }
+  if (pressed) {
+    fill(0, 111, 77);
+    if (pressedSquare==1) rect(0, 0, width/2, height/2);
+    if (pressedSquare==2) rect(width/2, 0, width/2, height/2);
+    if (pressedSquare==3) rect(0, height/2, width/2, height/2);
+    if (pressedSquare==4) rect(width/2, height/2, width/2, height/2);
+  } else {
+    background(77);
   }
-  
-  text("press mouse here to play video on client", 10, height/2);
+  line(width/2, 0, width/2, height);
+  line(0, height/2, width, height/2);
+  fill(0);
+  text("play", width/4, height/4);
+  text("stop", width/4*3, height/4);
+  text("bang", width/4, height/4*3);
+  text("test", width/4*3, height/4*3);
+
+  if (pressedTime<0) {
+    pressed = false;
+  } else {
+    pressedTime--;
+  }
 } 
 
 void mousePressed() {
- myServer.write("play");
+  pressed = true;
+  pressedTime = 3;
+  if(mouseX<width/2 && mouseY<height/2) {
+    pressedSquare = 1;
+      myServer.write("play");
+  }
+  if(mouseX>width/2 && mouseY<height/2) {
+    pressedSquare = 2;
+      myServer.write("stop");
+  }
+  if(mouseX<width/2 && mouseY>height/2) {
+    pressedSquare = 3;
+      myServer.write("bang");
+  }
+  if(mouseX>width/2 && mouseY>height/2) {
+    pressedSquare = 4;
+      myServer.write("test");
+  }
+
+  background(66);
 }
