@@ -20,13 +20,16 @@ String ipNumber = "";
 Boolean connectDialog = false;
 Boolean running = false;
 Boolean connected = false;
+String filePath = "";
+String fileInfo = "";
 
 import processing.video.*;
 Movie m;
 
 void setup() 
 {
-  size(1024, 768);
+  // size(1024, 768);
+  fullScreen();
   frameRate(20); 
   fill(255);
 
@@ -41,6 +44,12 @@ void draw()
 {
   if (!running) {
     background(111, 55, 11);
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    text("select video file", width/2, height*0.33);
+    textSize(18);
+    text(filePath, width/2, height*0.66);
+    text(fileInfo, width/2, height*0.72);
   } else {
     background(0);
     image(m, 0, 0, width, height);
@@ -56,9 +65,9 @@ void draw()
 
     if (connectDialog) {
       background(111);
-      textSize(16);
-      text("write ip number of server computer: (then press ENTER)", 22, 44);
-      text(ipNumber, 22, 66);
+      textSize(24);
+      text("write ip number of server computer: (then press ENTER)", width/2, height*0.33);
+      text(ipNumber, width/2, height*0.5);
     }
   }
 }
@@ -89,7 +98,7 @@ void keyPressed() {
       if (ipNumber.length() > 0) {
         ipNumber = ipNumber.substring(0, ipNumber.length()-1);
       }
-    } else {
+    } else if(key != 'c') {
       ipNumber = ipNumber + key;
     }
   }
@@ -114,8 +123,12 @@ void fileSelected(File selection) {
   } else {
     println("User selected " + selection.getAbsolutePath());
     m = new Movie(this, selection.getAbsolutePath());
+    loop();
+    delay(111);
+    filePath = selection.getAbsolutePath();
+    fileInfo = m.width + "x" + m.height + " pixels  " + m.duration() + " seconds";
+    delay(2222);
     running=true;
-    //loop();
   }
 }
 
