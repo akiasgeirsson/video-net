@@ -32,6 +32,8 @@ void setup()
   fullScreen();
   frameRate(20); 
   fill(255);
+  
+  imageMode(CENTER);
 
   noLoop();
   selectInput("Select a video file:", "fileSelected");
@@ -52,7 +54,7 @@ void draw()
     text(fileInfo, width/2, height*0.72);
   } else {
     background(0);
-    image(m, 0, 0, width, height);
+    image(m, width/2, height/2);
 
     //if (!connected)
     //{
@@ -152,4 +154,3 @@ void clientEvent(Client someClient) {
     println("testing...");
   }
 }
-
