@@ -1,12 +1,18 @@
-
 //aki asgeirsson, jan 2016
 // updated august 2021
-// todo:
-//   verify ip connection, etc
-//   catch exeption something
-//   add play controls (server side), rewind, pause etc
-//   adjust screen size to video (is it possible?)
-// fit to screen
+
+/*
+ todo:
+ catch exception?
+ ip dialouge only numbers and dot
+ orange screen 
+ full screen always
+ video expand to screen size
+ add play controls (server side), rewind, pause etc
+ add instructions on screen
+ add info on screen
+ */
+
 
 import processing.net.*;
 Client c;
